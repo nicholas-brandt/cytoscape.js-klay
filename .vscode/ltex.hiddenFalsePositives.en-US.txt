@@ -1,0 +1,4 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"\\^(?:ipub|fub|e|j)"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"(?:.+)\\^(?:.*)"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"(?:.*)\\^(?:.+)"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"my(?:red|green)"}

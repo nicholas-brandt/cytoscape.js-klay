@@ -1,6 +1,6 @@
 const path = require('path');
 const pkg = require('./package.json');
-const camelcase = require('camelcase');
+const camelcase = require('camelcase').default;
 const process = require('process');
 const webpack = require('webpack');
 const env = process.env;
@@ -9,28 +9,22 @@ const MIN = env.MIN;
 const PROD = NODE_ENV === 'production';
 
 let config = {
-  devtool: PROD ? false : 'inline-source-map',
+  devtool: 'inline-source-map',
   entry: './src/index.js',
   output: {
-    path: path.join( __dirname ),
+    path: path.join(__dirname),
     filename: pkg.name + '.js',
-    library: camelcase( pkg.name ),
-    libraryTarget: 'umd'
-  },
-  module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' }
-    ]
-  },
-  externals: PROD ? {
-    'klayjs': {
-      commonjs: 'klayjs',
-      commonjs2: 'klayjs',
-      amd: 'klayjs',
-      root: '$klay'
+    library: { type: 'module' }, // camelcase(pkg.name),
+    module: true,
+    environment: {
+      module: true, // Keep ES6 module syntax
     }
-  } : [],
-  plugins: MIN ? [
+  },
+  experiments: {
+    outputModule: true,
+  },
+  externals: NODE_ENV === 'production' ? Object.keys(pkg.dependencies || {}) : [],
+  plugins: false && MIN ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
